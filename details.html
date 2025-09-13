@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Détails du voyage</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    .swiper {
+      width: 100%;
+      height: 300px;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="max-w-4xl mx-auto mt-10 p-0">
+    <!-- Slideshow at the top -->
+    <div class="swiper">
+      <div class="swiper-wrapper" id="gallery">
+        <!-- Slides injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-4">
+    <h1 id="trip-title" class="text-3xl font-bold mb-4">Chargement...</h1>
+    <div id="trip-content" class="space-y-4"></div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    const trips = {
+      maroc: {
+        title: "Voyage à Casablanca",
+        images: ["images/Maroc1.jpg", "images/Maroc2.jpg", "images/Maroc3.jpg"],
+        flight: {
+          depart: "Abidjan",
+          arrivee: "Casablanca",
+           dates: {
+          depart: "2025-12-22",
+          retour: "2026-01-02",
+        },
+                    duree: "7 jours complets"
+        },
+        hotel: {
+          desc: "Airbnb moderne au centre-ville de Casablanca",
+          avantages: ["Quartier vivant & sécurisé","Wifi haut débit","Cuisine équipée"]
+        },
+        payable: true,
+        activities: [
+          "Visite du désert en dromadaire",
+          "Souks traditionnels",
+          "Dégustation culinaire",
+          "Excursion à Marrakech"
+        ]
+      },
+      maroc2: {
+        title: "Voyage à Marrackech",
+        images: ["images/Marra1.jpg", "images/Marra2.jpg", "images/Marra3.jpg"],
+        flight: {
+          depart: "Paris",
+          arrivee: "Marrackech",
+           dates: {
+          depart: "2025-12-22",
+          retour: "2026-01-02",
+        },
+                    duree: "10 jours complets"
+        },
+        hotel: {
+          desc: "Airbnb moderne au centre-ville de Casablanca",
+          avantages: ["Quartier vivant & sécurisé","Wifi haut débit","Cuisine équipée"]
+        },
+        payable: true,
+        activities: [
+          "Visite du désert en dromadaire",
+          "Souks traditionnels",
+          "Dégustation culinaire",
+          "Excursion à Marrakech"
+        ]
+      },
+
+      lagos: {
+        title: "🌍 Lagos, Nigeria — Offre Duo",
+        images: ["images/Lagos/lagos2.jpg","images/Lagos/lagos1.jpg","images/Lagos/lagos3.jpg"],
+        flight: {
+          depart : "Paris",
+          arrivee: "Lagos",
+          dates: {
+          depart: "2025-08-07",
+          retour: "2025-08-14"
+          },
+          duree  : "8 jours / 7 nuits",
+          inclus : [
+            "Vols aller-retour (bagage soute + cabine)",
+            "Départs possibles depuis Paris ou Abidjan",
+            "Compagnies régulières et fiables"
+          ]
+        },
+        price: { paris: 2300, abidjan: 853000 },
+        hotel: {
+          desc: "Logement confortable 7 nuits (chambre double ou twin)",
+          avantages: ["Wifi disponible","Emplacement idéal pour explorer ou se reposer"]
+        },
+        activities: [
+          "Plages animées : Tarkwa Bay, Elegushi Beach",
+          "Art contemporain & marchés à Lekki",
+          "Sorties nocturnes à Victoria Island",
+          "Cuisine afro-fusion et street-food locale"
+        ],
+        pourquoi: "Capitale économique ultra-vibrante, Lagos ne dort jamais ! 🌆 Entre ses plages, son art urbain, sa scène culinaire explosive et ses nuits endiablées, la ville offre une expérience africaine anglophone incomparable.",
+        payable: true
+      },
+
+      dakar: {
+        title: "🌍 Dakar, Sénégal — Offre Duo",
+        images: ["images/Senegal/dakar4.jpg","images/Senegal/dakar2.jpg","images/Senegal/dakar1.jpg"],
+        flight: {
+          depart: "Abidjan",
+          arrivee: "Dakar",
+          dates: {
+          depart: "2025-08-07",
+           retour: "2025-08-15"
+          },
+          duree: "9 jours / 8 nuits",
+          inclus: [
+            "Vols aller-retour avec bagages cabine & soute",
+            "Départs disponibles depuis Paris ou Abidjan",
+            "Accueil aéroport + transferts (optionnel)"
+          ]
+        },
+        price: { paris: 1700, abidjan: 490000 },
+        hotel: {
+          desc: "Hébergement confortable 8 nuits (chambre double)",
+          avantages: ["Emplacement central ou proche des plages","Wifi gratuit pour rester connecté"]
+        },
+        activities: [
+          "Visite de l’Île de Gorée",
+          "Plage de Yoff & Corniche Ouest",
+          "Marchés colorés traditionnels",
+          "Monument de la Renaissance africaine"
+        ],
+        pourquoi: "Cap sur la Teranga sénégalaise ! Dakar, ville chaleureuse et dynamique mêlant modernité et traditions : thieboudienne, culture, plages et ambiance inoubliable.",
+        payable: true
+      }
+    };
+
+    function getQueryParam(key) {
+      return new URLSearchParams(window.location.search).get(key);
+    }
+
+    const tripKey = getQueryParam("trip");
+    const montant = getQueryParam("montant");
+    const destination = getQueryParam("destination");
+    const trip = trips[tripKey];
+
+    if (!trip) {
+      document.getElementById("trip-title").textContent = "Voyage non trouvé";
+    } else {
+      document.getElementById("trip-title").textContent = trip.title;
+
+      const gallery = document.getElementById("gallery");
+      trip.images.forEach(src => {
+        const slide = document.createElement("div");
+        slide.className = "swiper-slide";
+        slide.innerHTML = `<img src="${src}" alt="Image du voyage" />`;
+        gallery.appendChild(slide);
+      });
+
+      const content = document.getElementById("trip-content");
+      content.innerHTML = `
+       <div>
+          <h2 class="text-xl font-semibold">Détails du vol ✈️</h2>
+          <p><strong>Départ :</strong> ${trip.flight.depart}</p>
+          <p><strong>Arrivée :</strong> ${trip.flight.arrivee}</p>
+          <p><strong>Dates :</strong> ${trip.flight.dates.depart} → ${trip.flight.dates.retour}</p>
+          <p><strong>Durée :</strong> ${trip.flight.duree}</p>
+        </div> 
+        <div>
+          <h2 class="text-xl font-semibold">Hébergement 🏨</h2>
+          <p>${trip.hotel.desc}</p>
+          <ul class="list-disc pl-5 text-gray-600 mb-4">
+            ${trip.hotel.avantages.map(av => `<li>${av}</li>`).join("")}
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold">Activités à faire</h2>
+          <ul class="list-disc pl-5">${trip.activities.map(a => `<li>${a}</li>`).join("")}</ul>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold">Pourquoi cette ville?</h2>
+          <p class="text-gray-700 mb-4">${trip.pourquoi || ""}</p>
+        </div>
+
+        <div class="text-lg font-bold text-orange-600">
+          💰 Prix : ${montant ? montant : "Sur demande"}
+        </div>
+
+        ${trip.payable ? '<p class="text-green-700 font-semibold">✅ Payable en 3 fois</p>' : ""}
+        <div class="pt-4">
+          <a href="client_form.html?destination=${encodeURIComponent(destination || trip.flight.arrivee)}&montant=${encodeURIComponent(montant || '')}&depart=${encodeURIComponent(trip.flight.depart)}&date_depart=${encodeURIComponent(trip.flight.dates.depart)}&date_retour=${encodeURIComponent(trip.flight.dates.retour)}" 
+   target="_blank" 
+   class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full shadow">
+  Prêt à réserver
+</a>
+
+        </div>
+      `;
+
+      new Swiper('.swiper', {
+        loop: true,
+        autoplay: { delay: 3000 },
+        speed: 800,
+      });
+    }
+  </script>
+</body>
+</html>

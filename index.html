@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RydTrip – Book Now</title>
+
+  <!-- Tailwind & Swiper -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <style>
+    body{margin:0;font-family:"Segoe UI",sans-serif;background:#f0f4f8}
+    /* ────────── Navbar */
+    .navbar{display:flex;justify-content:space-between;align-items:center;background:#004080;color:#fff;padding:10px 20px;position:sticky;top:0;z-index:10}
+    .nav-left,.nav-right{display:flex;align-items:center}
+    .icon-button{background:none;border:none;font-size:20px;margin:0 8px;cursor:pointer;color:#000}
+    .icon-button:hover{color:#ffcc00}
+
+    /* search reveal */
+    .search-input{width:0;opacity:0;transition:width .25s ease,opacity .25s ease}
+    .search-input.open{width:180px;opacity:1}
+
+    /* drawer */
+    .drawer{position:fixed;right:0;top:0;width:0;height:100%;background:rgba(0,0,0,.5);overflow-x:hidden;transition:.3s;z-index:1000}
+    .drawer.open{width:100%}
+    .drawer-content{background:#fff;width:250px;height:100%;padding:20px;box-shadow:-2px 0 5px rgba(0,0,0,.2);position:absolute;right:0;top:0;display:flex;flex-direction:column}
+    .drawer-content a{margin:15px 0;text-decoration:none;color:#333;font-weight:600}
+    .drawer-content a:hover{color:#007bff}
+
+    /* swiper */
+    .swiper{width:90%;max-width:1000px;margin:40px auto}
+    .swiper-slide{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 6px 15px rgba(0,0,0,.1);display:flex;flex-direction:column}
+    .slide-image{width:100%;height:200px;object-fit:cover}
+
+    /* modal */
+    .modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5)}
+    .modal-content{background:#fff;margin:10% auto;padding:20px;border-radius:12px;max-width:400px;position:relative}
+
+    @media(max-width:600px){
+      .slide-content h3{font-size:18px}
+      .slide-content p{font-size:13px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ────────── NAVBAR -->
+<nav class="navbar bg-white shadow-md relative">
+  <div class="nav-left">
+   <img src="images/rydtrip-logo.png" class="h-12" alt="RydTrip logo">
+  </div>
+
+  <!-- Right side: search + icons -->
+  <div class="nav-right gap-2 relative">
+    <!-- search block -->
+    <div class="relative flex items-center gap-1">
+      <button id="searchBtn" class="icon-button">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+         class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" 
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+    </svg>
+  </button>
+</button>
+      <input id="searchBox" type="text" placeholder="Rechercher…" class="search-input border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none">
+    </div>
+    <!-- other icons -->
+    <button class="icon-button" onclick="alert('Admin clicked!')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+</svg>
+</button>
+    <button class="icon-button" onclick="alert('Cart clicked!')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+</svg>
+</button>
+     <button class="icon-button" onclick="toggleDrawer()">☰</button>
+  </div>
+</nav>
+
+<!-- ────────── DRAWER -->
+<div id="drawer" class="drawer" onclick="closeDrawer()">
+  <div class="drawer-content" onclick="event.stopPropagation()">
+    <a href="#">Nos meilleures offres</a>
+    <a href="https://www.ivoirix.com/top-10-des-sites-touristiques-en-cote-divoire/#les-plages-de-grand-bassam">Découvrir la Côte d'Ivoire</a>
+    <a href="https://www.aircotedivoire.com/reservation/acheter-un-billet/">Destinations +</a>
+    <a href="a-propos.html">À propos de nous</a>
+    <a href="contact.html">Contactez-nous</a>
+  </div>
+</div>
+
+
+<section class="relative w-full h-64 sm:h-96">
+  <!-- Background Image -->
+  <img src="images/Can 2025.jpeg" 
+       class="w-full h-full object-cover" 
+       alt="Africa Cup of Nations Morocco 2025">
+</section>
+
+<div class="swiper">
+ <div class="swiper-wrapper">
+         <!-- slide 1 -->
+    <div class="swiper-slide searchable">
+  <a href="details.html" 
+     target="_blank"
+     class="block">
+
+    <!-- A4 aspect ratio container -->
+    <div class="relative w-full" style="aspect-ratio: 210 / 297;">
+      <img src="images/Abidjan-Marrackech.jpeg" 
+           alt="Maroc 2025 - Phase de Poule" 
+           class="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg hover:opacity-90 transition duration-300">
+    </div>
+  </a>
+</div>
+<!-- slide 2 -->
+ <div class="swiper-slide searchable">
+  <a href="details.html?trip=maroc" 
+     target="_blank"
+     class="block">
+
+    <!-- A4 aspect ratio container -->
+    <div class="relative w-full" style="aspect-ratio: 210 / 297;">
+      <img src="images/Paris-Marrackeh Solo.jpeg" 
+           alt="Maroc 2025 - Phase de Poule" 
+           class="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg hover:opacity-90 transition duration-300">
+    </div>
+  </a>
+</div>
+
+<!-- slide 3 -->
+ <div class="swiper-slide searchable">
+  <a href="details.html?trip=maroc2&montant=2300" 
+     target="_blank"
+     class="block">
+
+    <!-- A4 aspect ratio container -->
+    <div class="relative w-full" style="aspect-ratio: 210 / 297;">
+      <img src="images/Paris Marrackeh Duo.jpeg" 
+           alt="Maroc 2025 - Phase de Poule" 
+           class="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg hover:opacity-90 transition duration-300">
+    </div>
+  </a>
+  </div>
+
+  </div> <!-- ✅ close .swiper-wrapper -->
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+<div class="swiper-pagination"></div>
+</div> <!-- ✅ close FIRST .swiper -->
+
+<!-- ────────── SWIPER “meilleures offres” -->
+<div class="swiper my-12 max-w-5xl mx-auto">
+  <h2 class="text-4xl font-extrabold text-gray-900 mb-10 text-center uppercase tracking-wide">Nos meilleures offres</h2>
+  <div class="swiper-wrapper">
+
+
+
+   <!-- Slide: Dakar -->
+<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
+  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-full h-48 object-cover rounded-t-xl">
+  <div class="p-4">
+    <div class="flex justify-between items-center mb-1">
+      <h3 class="text-xl font-semibold text-gray-800">Dakar, Sénégal</h3>
+      <div>
+        <p class="text-orange-600 font-bold text-lg"> 490 000 FCFA</p>
+      </div>
+    </div>
+    <p class="text-gray-500 text-sm mb-2">Abidjan ⟷ Dakar</p>
+    <ul class="text-sm text-gray-700 space-y-1 mb-4">
+      <li>📅 Du 7 au 15 août 2025</li>
+      <li>👥 Offre Duo</li>
+      <li>🏢 Airbnb</li>
+    </ul>
+    <div class="flex justify-between items-center text-xs text-gray-500">
+      <a href="details.html?trip=dakar&montant=490000" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
+      <span class="flex items-center gap-1">💼 Bagages inclus</span>
+    </div>
+  </div>
+</div>
+<!-- Slide: Dakar -->
+<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
+  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-full h-48 object-cover rounded-t-xl">
+  <div class="p-4">
+    <div class="flex justify-between items-center mb-1">
+      <h3 class="text-xl font-semibold text-gray-800">Dakar, Sénégal</h3>
+      <div>
+        <p class="text-orange-600 font-bold text-lg">3 000 €</p>
+      </div>
+    </div>
+    <p class="text-gray-500 text-sm mb-2">Paris ⟷ Dakar</p>
+    <ul class="text-sm text-gray-700 space-y-1 mb-4">
+      <li>📅 Du 7 au 15 août 2025</li>
+      <li>👥 Offre Duo</li>
+      <li>🏢 Airbnb</li>
+    </ul>
+    <div class="flex justify-between items-center text-xs text-gray-500">
+      <a href="details.html?trip=dakar&montant=490000" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
+      <span class="flex items-center gap-1">💼 Bagages inclus</span>
+    </div>
+  </div>
+</div>
+
+<!-- Slide: Lagos -->
+<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
+  <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-full h-48 object-cover rounded-t-xl">
+  <div class="p-4">
+    <div class="flex justify-between items-center mb-1">
+      <h3 class="text-xl font-semibold text-gray-800">Lagos, Nigeria</h3>
+      <div>
+        <p class="text-orange-600 font-bold text-lg">2 300 €</p>
+      </div>
+    </div>
+    <p class="text-gray-500 text-sm mb-2">Paris ⟷ Lagos</p>
+    <ul class="text-sm text-gray-500 space-y-1 mb-4">
+      <li>📅 Du 7 au 14 août 2025</li>
+      <li>👥 Offre Duo</li>
+      <li> 🏢 Airbnb</li>
+    </ul>
+    <div class="flex justify-between items-center text-xs text-gray-500">
+      <a href="details.html?trip=lagos&montant=2300" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
+      <span class="flex items-center gap-1">💼 Bagages inclus</span>
+    </div>
+  </div>
+</div>
+<!-- Slide: Lagos Abidjan-->
+<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
+  <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-full h-48 object-cover rounded-t-xl">
+  <div class="p-4">
+    <div class="flex justify-between items-center mb-1">
+      <h3 class="text-xl font-semibold text-gray-800">Lagos, Nigeria</h3>
+      <div>
+        <p class="text-orange-600 font-bold text-lg">650 000 CFA</p>
+      </div>
+    </div>
+    <p class="text-gray-500 text-sm mb-2">Abidjan ⟷ Lagos</p>
+    <ul class="text-sm text-gray-500 space-y-1 mb-4">
+      <li>📅 Du 7 au 14 août 2025</li>
+      <li>👥 Offre Duo</li>
+      <li> 🏢 Airbnb</li>
+    </ul>
+    <div class="flex justify-between items-center text-xs text-gray-500">
+      <a href="details.html?trip=lagos&montant=2300" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
+      <span class="flex items-center gap-1">💼 Bagages inclus</span>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<!-- ────────── DESTINATIONS -->
+<section class="bg-white py-12 px-4">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Nos destinations voyage</h2>
+    <p class="text-gray-700 mb-8">
+      Découvrez le forfait le mieux adapté à vos besoins, selon vos préférences,
+      les destinations que vous souhaitez explorer et le style de voyage que vous recherchez.
+    </p>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+
+      <!-- Afrique -->
+      <a href="Afrique.html" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
+        <div class="w-full h-64 bg-cover bg-center relative" style="background-image:url('images/Afrique.jpg')">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold text-center px-2">Afrique & Moyen-Orient</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- Amérique centrale -->
+      <a href="#" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
+        <div class="w-full h-64 bg-cover bg-center relative" style="background-image:url('images/Amerique centrale.jpg')">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold text-center px-2">Amérique centrale</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- Amérique du Nord -->
+      <a href="#" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
+        <div class="w-full h-64 bg-cover bg-center relative" style="background-image:url('images/Amerique du nord.jpg')">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold text-center px-2">Amérique du Nord</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- Amérique du Sud -->
+      <a href="#" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
+        <div class="w-full h-64 bg-cover bg-center relative" style="background-image:url('images/Amerique du Sud.jpg')">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold text-center px-2">Amérique du Sud</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- Asie -->
+      <a href="#" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
+        <div class="w-full h-64 bg-cover bg-center relative" style="background-image:url('images/Asie.jpg')">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold text-center px-2">Asie</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- Europe -->
+      <a href="Europe.html" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
+        <div class="w-full h-64 bg-cover bg-center relative" style="background-image:url('images/Europe.jpg')">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold text-center px-2">Europe</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- Pacifique Sud -->
+      <a href="#" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
+        <div class="w-full h-64 bg-cover bg-center relative" style="background-image:url('images/Pacifique sud.jpg')">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold text-center px-2">Pacifique Sud</h3>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ────────── MODAL (démo) -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h2>Book Your Trip</h2>
+    <form onsubmit="submitForm(event)">
+      <label>Full Name</label><input required>
+      <label>Email</label><input type="email" required>
+      <label>Phone</label><input required>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  /* ─── Swiper init */
+  new Swiper('.swiper',{
+    slidesPerView:1,spaceBetween:30,loop:true,
+    pagination:{el:'.swiper-pagination',clickable:true},
+    navigation:{nextEl:'.swiper-button-next',prevEl:'.swiper-button-prev'},
+    breakpoints:{768:{slidesPerView:2},1024:{slidesPerView:3}}
+  });
+
+  /* ─── Drawer */
+  function toggleDrawer(){document.getElementById('drawer').classList.toggle('open');}
+  function closeDrawer(){document.getElementById('drawer').classList.remove('open');}
+
+  /* ─── Modal demo */
+  function openModal(){document.getElementById('bookingModal').style.display='block';}
+  function closeModal(){document.getElementById('bookingModal').style.display='none';}
+  function submitForm(e){e.preventDefault();alert('Thank you!');closeModal();}
+
+  /* ─── Search */
+  const btn = document.getElementById('searchBtn');
+  const box = document.getElementById('searchBox');
+
+  btn.addEventListener('click', () => {
+    box.classList.toggle('open');
+    if(box.classList.contains('open')) { box.focus(); } else { box.value=''; filter(''); }
+  });
+
+  box.addEventListener('input', e => filter(e.target.value));
+  window.addEventListener('keydown', e => { if(e.key==='Escape') { box.classList.remove('open'); box.value=''; filter(''); }});
+
+  function filter(q){
+    q = q.toLowerCase().trim();
+    document.querySelectorAll('.searchable').forEach(el=>{
+      el.style.display = q && !el.innerText.toLowerCase().includes(q) ? 'none' : '';
+    });
+  }
+  
+</script>
+</body>
+</html>

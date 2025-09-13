@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiement - RydTrip</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Finalisez votre paiement</h1>
+
+    <div class="mb-8">
+      <label class="block text-gray-700 mb-2">Entrez votre adresse email pour continuer :</label>
+      <input type="email" id="emailInput" class="w-full p-2 border rounded" placeholder="ex: contact@exemple.com" required>
+      <button onclick="validateEmail()" class="mt-3 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Valider</button>
+    </div>
+
+    <div id="errorMessage" class="text-red-600 mb-4 hidden">Email non trouvé. Veuillez remplir la fiche client d'abord.</div>
+    <div id="helloUser" class="text-lg font-semibold mb-4 hidden"></div>
+ 
+    <div id="paymentSection" style="display: none;">
+  <h2 class="text-xl font-semibold mb-4">Détails du paiement</h2>
+
+  <p class="mb-2">Montant total : <strong id="fullAmount">0 €</strong></p>
+
+  <label class="block mb-2 font-medium">Choisissez une option :</label>
+  <div class="mb-4">
+    <label class="inline-flex items-center mr-4">
+      <input type="radio" name="paymentOption" value="full" checked onchange="updateSelectedAmount()" />
+      <span class="ml-2">💰 Payer en totalité</span>
+    </label>
+    <label class="inline-flex items-center">
+      <input type="radio" name="paymentOption" value="installment" onchange="updateSelectedAmount()" />
+      <span class="ml-2">📆 Payer en 3 fois</span>
+    </label>
+  </div>
+
+  <p class="mb-4 text-gray-700">💳 Montant à payer maintenant : <strong id="payNowAmount">0 €</strong></p>
+
+  <div class="mb-6">
+    <h3 class="font-semibold mb-2">💳 PayPal</h3>
+    <div id="paypal-button-container"></div>
+  </div>
+
+  <div class="mb-6">
+    <h3 class="font-semibold mb-2">📲 Orange Money</h3>
+    <p>
+      <a id="orangeLink" href="#" class="text-blue-600 underline" target="_blank">
+        Payer avec Orange Money
+      </a>
+    </p>
+  </div>
+
+  <div class="mb-6">
+    <h3 class="font-semibold mb-2">🌊 Wave</h3>
+    <p>
+      <a id="waveLink" href="#" class="text-blue-600 underline" target="_blank">
+        Payer avec Wave
+      </a>
+    </p>
+  </div>
+</div>
+
+
+  <script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzgK1uWTaSrRjjDOJj_GVnUpnNRq1RPl6Sb0TabpOJhdTUjIaUbkJ5Elvhm9dU8DqRnLw/exec";
+
+  let montant = 0;
+  let email = "";
+  let userNom = ""; 
+
+  function validateEmail() {
+    email = document.getElementById("emailInput").value;
+    if (!email) return;
+
+    fetch(`${scriptURL}?email=${encodeURIComponent(email)}`)
+  .then(res => res.json())                      // <-- .json()
+  .then(data => {
+    if (!data.success) {                       // not_found, missing, etc.
+      document.getElementById("errorMessage").classList.remove("hidden");
+      document.getElementById("paymentSection").style.display = "none";
+      document.getElementById("helloUser").classList.add("hidden");
+      return;
+    }
+    userNom = data.nom || ""; 
+    const helloBox = document.getElementById("helloUser");
+    helloBox.textContent = `Bonjour ${userNom} !`;
+    helloBox.classList.remove("hidden");
+    montant = parseFloat(data.montant || "0");
+    document.getElementById("errorMessage").classList.add("hidden");
+    document.getElementById("paymentSection").style.display = "block";
+
+    document.getElementById("fullAmount").innerText = montant.toFixed(2) + " €";
+    updateSelectedAmount();                    // met à jour PayPal & liens
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Erreur lors de la validation.");
+  });
+  }
+
+  function updateSelectedAmount() {
+    const selected = document.querySelector('input[name="paymentOption"]:checked').value;
+    const payNow = selected === "installment" ? (montant / 3).toFixed(2) : montant.toFixed(2);
+
+    document.getElementById("payNowAmount").innerText = `${payNow} €`;
+
+    renderPayPalButton(payNow);
+
+    // Update Orange and Wave URLs dynamically
+    document.getElementById("orangeLink").href =
+      `https://orangemoney.url/pay?amount=${payNow}&email=${encodeURIComponent(email)}`;
+    document.getElementById("waveLink").href =
+      `https://wave.com/payment?amount=${payNow}&email=${encodeURIComponent(email)}`;
+  }
+
+  function renderPayPalButton(amountToPay) {
+    document.getElementById("paypal-button-container").innerHTML = "";
+
+    paypal.Buttons({
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: { value: amountToPay }
+          }]
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          alert("Merci " + details.payer.name.given_name + " pour votre paiement !");
+          window.location.href = "merci.html";
+        });
+      }
+    }).render('#paypal-button-container');
+  }
+</script>
+</body>
+</html>

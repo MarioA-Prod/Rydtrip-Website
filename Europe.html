@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Europe – RydTrip</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+</head>
+<body class="bg-gray-100">
+
+  <!-- 🔹 HEADER (logo + nav) -->
+  <header class="bg-blue-600 text-white shadow-md">
+    <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+      <a href="index.html" class="text-xl font-bold">Retour a la Page d'Accueil</a>
+      <nav class="space-x-4">
+        <a href="afrique.html" class="hover:underline">Afrique</a>
+        <a href="europe.html" class="hover:underline">Europe</a>
+        <a href="amerique.html" class="hover:underline">Amérique</a>
+        <a href="asie.html" class="hover:underline">Asie</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 🔹 MAIN CONTENT -->
+  <main class="max-w-6xl mx-auto py-8 px-4">
+    <h2 class="text-2xl font-bold mb-6">Europe</h2>
+
+    <!-- Swiper -->
+    <div class="swiper">
+      <div class="swiper-wrapper">
+<div class="swiper-slide searchable">
+      <img src="images/Mar%20Test2.jpeg" class="w-full h-48 object-cover" alt="">
+      <div class="p-4">
+        <div class="flex justify-between items-center mb-1">
+          <h3 class="text-xl font-semibold">Phase de Poule</h3>
+          <div>
+            <p class="text-orange-600 font-bold text-lg">2100 €</p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm mb-2">Paris ⟷ Marrakech</p>
+        <ul class="text-sm text-gray-700 mb-4">
+          <li>📅 22 Décembre – 2 Janvier</li>
+          <li>👥 Offre Duo</li>
+          <li>🏢 Hotel ⭐⭐⭐</li>
+        </ul>
+        <div class="flex justify-between items-center text-xs text-gray-500">
+          <a href="details.html?trip=maroc&montant=2100" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="bg-gray-800 text-gray-200 text-center py-4 mt-8">
+    <p>&copy; 2025 RydTrip. Tous droits réservés.</p>
+  </footer>
+
+  <!-- 🔹 Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    new Swiper('.swiper', {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      breakpoints: {
+        640: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 }
+      }
+    });
+  </script>
+</body>
+</html>

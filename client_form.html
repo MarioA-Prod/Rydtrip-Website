@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fiche Client RYDTRIP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 py-10 px-4">
+
+  <div class="max-w-4xl mx-auto bg-white shadow-md p-8 rounded-lg">
+    <h1 class="text-2xl font-bold mb-6">Fiche Client RYDTRIP</h1>
+    <form action="https://script.google.com/macros/s/AKfycbzgK1uWTaSrRjjDOJj_GVnUpnNRq1RPl6Sb0TabpOJhdTUjIaUbkJ5Elvhm9dU8DqRnLw/exec" method="POST">
+
+      <input type="hidden" name="_next" value="https://rydtrip.com/merci.html">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+
+      <!-- Champs cachés -->
+      <input type="hidden" name="montant" id="montantField" value="">
+      <input type="hidden" name="destinationHidden" id="destinationHidden">
+      <input type="hidden" name="date_depart" id="dateDepartField">
+      <input type="hidden" name="date_retour" id="dateRetourField">
+
+      <div>
+        <label class="block font-medium">Nom et Prénoms *</label>
+        <input type="text" name="nom" required class="w-full border rounded p-2" />
+      </div>
+
+      <div>
+        <label class="block font-medium">Email *</label>
+        <input type="text" name="email" required class="w-full border rounded p-2" />
+      </div>
+
+      <div>
+        <label class="block font-medium">Date de naissance *</label>
+        <input type="date" name="dob" required class="w-full border rounded p-2" />
+      </div>
+
+      <div>
+        <label class="block font-medium">Numéro de téléphone (+Indicatif) *</label>
+        <input type="tel" name="phone" required class="w-full border rounded p-2" />
+      </div>
+
+      <div>
+        <label class="block font-medium">Justificatif d’identité (Passeport) *</label>
+        <input type="file" name="passport" accept="image/*,.pdf" multiple class="w-full border rounded p-2" />
+        <small>Max 5 fichiers, 100 MB chacun</small>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium">Lieu de départ *</label>
+          <input type="text" name="depart" id="departField"required class="w-full border rounded p-2" />
+        </div>
+        <div>
+          <label class="block font-medium">Destination *</label>
+          <input type="text" name="destination" id="destinationField" required class="w-full border rounded p-2" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium">Offre d’intérêt</label>
+        <select name="formule" class="w-full border p-2 rounded">
+          <option>Formule Duo (1-2 personnes)</option>
+          <option>Formule Groupe petit (3-5 personnes)</option>
+          <option>Formule Groupe Moyen (6-10 personnes)</option>
+          <option>Formule Groupe Large (10+ personnes)</option>
+        </select>
+      </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div>
+    <label class="block font-medium">Date de départ *</label>
+    <input type="date" name="date_depart_vis" id="dateDepartVisible" required class="w-full border rounded p-2" />
+  </div>
+  <div>
+    <label class="block font-medium">Date de retour *</label>
+    <input type="date" name="date_retour_vis" id="dateRetourVisible" required class="w-full border rounded p-2" />
+  </div>
+</div>
+
+      <div>
+        <label class="block font-medium">Objectif du voyage *</label>
+        <textarea name="objectif" required class="w-full border p-2 rounded" rows="2"></textarea>
+      </div>
+
+      <div>
+        <label class="block font-medium">Avez-vous déjà visité cette destination ?</label>
+        <textarea name="avis" class="w-full border p-2 rounded" rows="2"></textarea>
+      </div>
+
+      <div>
+        <label class="block font-medium">Budget total  pour le forfait *</label>
+        <input type="text" id="budgetAuto" name="budget" readonly class="w-full border p-2 rounded bg-gray-100" />
+      </div>
+
+      <div class="flex items-center">
+        <input type="checkbox" name="confirmation" required class="mr-2" />
+        <label>Je confirme avoir pris connaissance des conditions et accepte la politique d’annulation.</label>
+      </div>
+
+      <div class="pt-4">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full shadow">
+          Envoyer la demande
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  const montant = params.get("montant");
+  const destination = params.get("destination");
+  const depart = params.get("depart");
+  const dateDepart = params.get("date_depart");
+  const dateRetour = params.get("date_retour");
+
+  if (montant) {
+    document.getElementById("montantField").value = montant;
+    document.getElementById("budgetAuto").value = montant; // affiché comme budget
+  }
+  if (destination) {
+    document.getElementById("destinationField").value = destination;
+    document.getElementById("destinationHidden").value = destination;
+  }
+  if (depart) {
+    document.getElementById("departField").value = depart;
+  }
+  if (dateDepart) {
+    // champ caché
+    document.getElementById("dateDepartField").value = dateDepart;
+    // champ visible
+    document.getElementById("dateDepartVisible").value = dateDepart;
+  }
+  if (dateRetour) {
+    // champ caché
+    document.getElementById("dateRetourField").value = dateRetour;
+    // champ visible
+    document.getElementById("dateRetourVisible").value = dateRetour;
+  }
+})();
+</script>
+
+</body>
+</html>
