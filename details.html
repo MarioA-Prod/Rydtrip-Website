@@ -25,10 +25,10 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 <!-- Lien retour -->
-<a href="index.html" 
+<button onclick="history.back()" 
    class="inline-block px-4 py-2 bg-orange-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
   ⬅ Retour à l'accueil
-</a>
+</button>
   <div class="max-w-4xl mx-auto mt-10 p-0">
     <!-- Slideshow at the top -->
     <div class="swiper">
@@ -216,7 +216,6 @@ content.innerHTML = `
   ${trip.payable ? '<p class="text-green-700 font-semibold">✅ Payable en 3 fois</p>' : ""}
   <div class="pt-4">
     <a href="client_form.html?destination=${encodeURIComponent(destination || trip.flight.arrivee)}&montant=${encodeURIComponent(montant || '')}&depart=${encodeURIComponent(trip.flight.depart)}&date_depart=${encodeURIComponent(trip.flight.dates.depart)}&date_retour=${encodeURIComponent(trip.flight.dates.retour)}" 
-       target="_blank" 
        class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full shadow">
       Prêt à réserver
     </a>
@@ -234,6 +233,7 @@ new Swiper('.swiper', {
   </script>
 </body>
 </html>
+
 
 
 
