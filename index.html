@@ -41,6 +41,15 @@
       .slide-content h3{font-size:18px}
       .slide-content p{font-size:13px}
     }
+
+    .swiper-slide {
+  position: relative; /* so absolute fav-btn anchors correctly */
+}
+
+.fav-btn-inner {
+  z-index: 10; /* make sure button is above the image */
+}
+
   </style>
 </head>
 <body>
@@ -49,6 +58,13 @@
 <nav class="navbar bg-white shadow-md relative">
   <div class="nav-left">
    <img src="images/rydtrip-logo.png" class="h-12" alt="RydTrip logo">
+  </div>
+
+     <a href="#client_Form.html" 
+       class="flex-1 max-w-md bg-gray-100 rounded-full px-5 py-1 text-gray-600 font-small
+              hover:bg-white-200 hover:text-gray-800 transition text-left shadow-sm">
+      Créer votre itinéraire
+    </a>
   </div>
 
   <!-- Right side: search + icons -->
@@ -64,14 +80,14 @@
     </svg>
   </button>
 </button>
-      <input id="searchBox" type="text" placeholder="Rechercher…" class="search-input border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none">
+      <input id="searchBox" type="text" placeholder="Rechercher…" class="search-input border border-gray-300 text-gray-800 placeholder-gray-400  rounded px-2 py-1 text-sm focus:outline-none">
     </div>
     <!-- other icons -->
-    <button class="icon-button" onclick="alert('Admin clicked!')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+    <button class="icon-button" onclick="window.location.href='register.html'"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 </svg>
 </button>
-    <button class="icon-button" onclick="alert('Cart clicked!')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+    <button id="wishlistBtn" class="icon-button"  ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 </svg>
 </button>
@@ -157,8 +173,8 @@
 
 
    <!-- Slide: Dakar -->
-<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
-  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-full h-48 object-cover rounded-t-xl">
+<div class="swiper-slide max-w-full h-full rounded-lg overflow-hidden shadow-lg bg-white">
+  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-1200 h-40 object-cover rounded-t-xl">
   <div class="fav-btn"></div>
 
   <div class="p-4">
@@ -183,9 +199,10 @@
 </div>
 <!-- Slide: Dakar -->
 <div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
-  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-full h-48 object-cover rounded-t-xl">
+  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-1200 h-40 object-cover rounded-t-xl">
   <div class="fav-btn"></div>
   <div class="p-4">
+     
     <div class="flex justify-between items-center mb-1">
       <h3 class="text-xl font-semibold text-gray-800">Dakar, Sénégal</h3>
       <div>
@@ -207,7 +224,7 @@
 
 <!-- Slide: Lagos -->
 <div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
-  <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-full h-48 object-cover rounded-t-xl">
+  <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-1200 h-40 object-cover rounded-t-xl">
   <div class="fav-btn"></div>
   <div class="p-4">
     <div class="flex justify-between items-center mb-1">
@@ -385,12 +402,6 @@
       </svg>
     </button>
   `;
-// Inject favorite button into all placeholders
-document.querySelectorAll('.fav-btn').forEach(el => {
-  el.innerHTML = favButton;
-});
-
-
 
   /* ─── Search */
   const btn = document.getElementById('searchBtn');
@@ -411,6 +422,53 @@ document.querySelectorAll('.fav-btn').forEach(el => {
     });
 
 }
+function createFavButton(title) {
+  return `
+    <button class="fav-btn-inner absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow hover:bg-purple-100" data-title="${title}">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+           viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5
+                 -1.935 0-3.597 1.126-4.312 2.733
+                 -.715-1.607-2.377-2.733-4.313-2.733
+                 C5.1 3.75 3 5.765 3 8.25
+                 c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+      </svg>
+    </button>
+  `;
+}
+document.querySelectorAll('.swiper-slide').forEach(slide => {
+  const title = slide.querySelector("h3")?.innerText || "Voyage";
+  const favContainer = slide.querySelector(".fav-btn");
+  if (favContainer) favContainer.innerHTML = createFavButton(title);
+});
+// Wishlist array
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+// Add to wishlist
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".fav-btn-inner")) {
+    const btn = e.target.closest(".fav-btn-inner");
+    const title = btn.getAttribute("data-title");
+
+    if (!wishlist.includes(title)) {
+      wishlist.push(title);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      alert(title + " ajouté à la wishlist !");
+    } else {
+      alert(title + " est déjà dans la wishlist.");
+    }
+  }
+});
+
+// Show wishlist when clicking navbar heart
+document.getElementById("wishlistBtn").addEventListener("click", () => {
+  if (wishlist.length === 0) {
+    alert("Votre wishlist est vide.");
+  } else {
+    alert("Votre wishlist : \n- " + wishlist.join("\n- "));
+  }
+});
 
   
 </script>
