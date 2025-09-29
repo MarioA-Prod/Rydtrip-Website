@@ -113,7 +113,7 @@
        class="w-full h-full object-cover" 
        alt="Africa Cup of Nations Morocco 2025">
 </section>
-
+<section class="bg-white py-12 px-4">
 <div class="swiper">
  <div class="swiper-wrapper">
          <!-- slide 1 -->
@@ -164,116 +164,118 @@
 <div class="swiper-button-prev"></div>
 <div class="swiper-pagination"></div>
 </div> <!-- ✅ close FIRST .swiper -->
+</section>
 
 <!-- ────────── SWIPER “meilleures offres” -->
-<div class="swiper my-12 max-w-5xl mx-auto">
-  <h2 class="text-4xl font-extrabold text-gray-900 mb-10 text-center uppercase tracking-wide">Nos meilleures offres</h2>
-  <div class="swiper-wrapper">
+<!-- ────────── SECTION “meilleures offres” -->
+<section class="bg-white py-12 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-4xl font-extrabold text-gray-900 mb-10 text-center uppercase tracking-wide">
+      Nos meilleures offres
+    </h2>
 
-
-
-   <!-- Slide: Dakar -->
-<div class="swiper-slide max-w-full h-full rounded-lg overflow-hidden shadow-lg bg-white">
-  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-1200 h-40 object-cover rounded-t-xl">
-  <div class="fav-btn"></div>
-
-  <div class="p-4">
-    
-    <div class="flex justify-between items-center mb-1">
-      <h3 class="text-xl font-semibold text-gray-800">Dakar, Sénégal</h3>
-      <div>
-        <p class="text-orange-600 font-bold text-lg"> 490 000 FCFA</p>
+    <!-- Grid of cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Card: Dakar -->
+      <div class="rounded-lg border border-gray-200 bg-white overflow-hidden relative">
+        <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-full h-40 object-cover rounded-t-lg">
+        <div class="absolute top-36 right-4 bg-white/90 backdrop-blur-sm text-orange-600 font-bold text-lg px-3 py-1 rounded-full shadow-md">
+          490 000 FCFA
+        </div>
+        <div class="p-4">
+          <h3 class="text-xl font-semibold text-gray-800">Dakar, Sénégal</h3>
+          <p class="text-gray-500 text-sm mb-2">Abidjan ⟷ Dakar</p>
+          <ul class="text-sm text-gray-700 space-y-1 mb-4">
+            <li>📅 Du 7 au 15 août 2025</li>
+            <li>👥 Offre Duo</li>
+            <li>🏢 Airbnb</li>
+          </ul>
+          <div class="flex justify-between items-center text-xs text-gray-500">
+            <a href="details.html?trip=dakar&montant=490000"
+               class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
+              Voir plus
+            </a>
+            <span class="flex items-center gap-1">💼 Bagages inclus</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <p class="text-gray-500 text-sm mb-2">Abidjan ⟷ Dakar</p>
-    <ul class="text-sm text-gray-700 space-y-1 mb-4">
-      <li>📅 Du 7 au 15 août 2025</li>
-      <li>👥 Offre Duo</li>
-      <li>🏢 Airbnb</li>
-    </ul>
-    <div class="flex justify-between items-center text-xs text-gray-500">
-      <a href="details.html?trip=dakar&montant=490000" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
-      <span class="flex items-center gap-1">💼 Bagages inclus</span>
-    </div>
-  </div>
-</div>
-<!-- Slide: Dakar -->
-<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
-  <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-1200 h-40 object-cover rounded-t-xl">
-  <div class="fav-btn"></div>
-  <div class="p-4">
-     
-    <div class="flex justify-between items-center mb-1">
-      <h3 class="text-xl font-semibold text-gray-800">Dakar, Sénégal</h3>
-      <div>
-        <p class="text-orange-600 font-bold text-lg">3 000 €</p>
-      </div>
-    </div>
-    <p class="text-gray-500 text-sm mb-2">Paris ⟷ Dakar</p>
-    <ul class="text-sm text-gray-700 space-y-1 mb-4">
-      <li>📅 Du 7 au 15 août 2025</li>
-      <li>👥 Offre Duo</li>
-      <li>🏢 Airbnb</li>
-    </ul>
-    <div class="flex justify-between items-center text-xs text-gray-500">
-      <a href="details.html?trip=dakar&montant=490000" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
-      <span class="flex items-center gap-1">💼 Bagages inclus</span>
-    </div>
-  </div>
-</div>
 
-<!-- Slide: Lagos -->
-<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
-  <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-1200 h-40 object-cover rounded-t-xl">
-  <div class="fav-btn"></div>
-  <div class="p-4">
-    <div class="flex justify-between items-center mb-1">
-      <h3 class="text-xl font-semibold text-gray-800">Lagos, Nigeria</h3>
-      <div>
-        <p class="text-orange-600 font-bold text-lg">2 300 €</p>
+      <!-- Card: Dakar (Paris) -->
+      <div class="rounded-lg border border-gray-200 bg-white overflow-hidden relative">
+        <img src="images/Senegal/dakar.jpeg" alt="Trip to Dakar" class="w-full h-40 object-cover rounded-t-lg">
+        <div class="p-4">
+          <h3 class="text-xl font-semibold text-gray-800">Dakar, Sénégal</h3>
+          <p class="text-gray-500 text-sm mb-2">Paris ⟷ Dakar</p>
+          <ul class="text-sm text-gray-700 space-y-1 mb-4">
+            <li>📅 Du 7 au 15 août 2025</li>
+            <li>👥 Offre Duo</li>
+            <li>🏢 Airbnb</li>
+          </ul>
+          <div class="flex justify-between items-center text-xs text-gray-500">
+            <a href="details.html?trip=dakar&montant=3000"
+               class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
+              Voir plus
+            </a>
+            <span class="flex items-center gap-1">💼 Bagages inclus</span>
+          </div>
+        </div>
+        <div class="absolute top-36 right-4 bg-white/90 backdrop-blur-sm text-orange-600 font-bold text-lg px-3 py-1 rounded-full shadow-md">
+          3 000 €
+        </div>
       </div>
-    </div>
-    <p class="text-gray-500 text-sm mb-2">Paris ⟷ Lagos</p>
-    <ul class="text-sm text-gray-500 space-y-1 mb-4">
-      <li>📅 Du 7 au 14 août 2025</li>
-      <li>👥 Offre Duo</li>
-      <li> 🏢 Airbnb</li>
-    </ul>
-    <div class="flex justify-between items-center text-xs text-gray-500">
-      <a href="details.html?trip=lagos&montant=2300" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
-      <span class="flex items-center gap-1">💼 Bagages inclus</span>
-    </div>
-  </div>
-</div>
-<!-- Slide: Lagos Abidjan-->
-<div class="swiper-slide max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
-  <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-full h-48 object-cover rounded-t-xl">
-  <div class="fav-btn"></div>
-  <div class="p-4">
-    <div class="flex justify-between items-center mb-1">
-      <h3 class="text-xl font-semibold text-gray-800">Lagos, Nigeria</h3>
-      <div>
-        <p class="text-orange-600 font-bold text-lg">650 000 CFA</p>
-      </div>
-    </div>
-    <p class="text-gray-500 text-sm mb-2">Abidjan ⟷ Lagos</p>
-    <ul class="text-sm text-gray-500 space-y-1 mb-4">
-      <li>📅 Du 7 au 14 août 2025</li>
-      <li>👥 Offre Duo</li>
-      <li> 🏢 Airbnb</li>
-    </ul>
-    <div class="flex justify-between items-center text-xs text-gray-500">
-      <a href="details.html?trip=lagos&montant=2300" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Voir plus</a>
-      <span class="flex items-center gap-1">💼 Bagages inclus</span>
-    </div>
-  </div>
-</div>
 
+      <!-- Card: Lagos (Paris) -->
+      <div class="rounded-lg border border-gray-200 bg-white overflow-hidden relative">
+        <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-full h-40 object-cover rounded-t-lg">
+        <div class="p-4">
+          <h3 class="text-xl font-semibold text-gray-800">Lagos, Nigeria</h3>
+          <p class="text-gray-500 text-sm mb-2">Paris ⟷ Lagos</p>
+          <ul class="text-sm text-gray-700 space-y-1 mb-4">
+            <li>📅 Du 7 au 14 août 2025</li>
+            <li>👥 Offre Duo</li>
+            <li>🏢 Airbnb</li>
+          </ul>
+          <div class="flex justify-between items-center text-xs text-gray-500">
+            <a href="details.html?trip=lagos&montant=2300"
+               class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
+              Voir plus
+            </a>
+            <span class="flex items-center gap-1">💼 Bagages inclus</span>
+          </div>
+        </div>
+        <div class="absolute top-36 right-4 bg-white/90 backdrop-blur-sm text-orange-600 font-bold text-lg px-3 py-1 rounded-full shadow-md">
+          2 300 €
+        </div>
+      </div>
+
+      <!-- Card: Lagos (Abidjan) -->
+      <div class="rounded-lg border border-gray-200 bg-white overflow-hidden relative">
+        <img src="images/Lagos/lagos.jpg" alt="Trip to Lagos" class="w-full h-48 object-cover rounded-t-lg">
+        <div class="p-4">
+          <h3 class="text-xl font-semibold text-gray-800">Lagos, Nigeria</h3>
+          <p class="text-gray-500 text-sm mb-2">Abidjan ⟷ Lagos</p>
+          <ul class="text-sm text-gray-700 space-y-1 mb-4">
+            <li>📅 Du 7 au 14 août 2025</li>
+            <li>👥 Offre Duo</li>
+            <li>🏢 Airbnb</li>
+          </ul>
+          <div class="flex justify-between items-center text-xs text-gray-500">
+            <a href="details.html?trip=lagos&montant=650000"
+               class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
+              Voir plus
+            </a>
+            <span class="flex items-center gap-1">💼 Bagages inclus</span>
+          </div>
+        </div>
+        <div class="absolute top-36 right-4 bg-white/90 backdrop-blur-sm text-orange-600 font-bold text-lg px-3 py-1 rounded-full shadow-md">
+          650 000 CFA
+        </div>
+      </div>
+
+    </div>
   </div>
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-pagination"></div>
-</div>
+</section>
 
 <!-- ────────── DESTINATIONS -->
 <section class="bg-white py-12 px-4">
@@ -284,7 +286,7 @@
       les destinations que vous souhaitez explorer et le style de voyage que vous recherchez.
     </p>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
       <!-- Afrique -->
       <a href="Afrique.html" class="searchable block rounded-xl overflow-hidden shadow-md transform transition hover:scale-105">
